@@ -1,23 +1,28 @@
-# Compiler & flags
- CC      = g++
- CFLAGS  = -Wall -Werror
- LDFLAGS =
+# Variables de compilació
+CC      := g++
+CFLAGS  := -Wall -Werror
+LDFLAGS := 
 
- # Program name
- TARGET  = example
+# Nom del programa final
+TARGET  := example
 
- # Sources -> Objects (collect all .cpp in the dir)
- SRCS := $(wildcard *.cpp)
- OBJS := $(SRCS:.cpp=.o)
+# Captura automàtica de fitxers font i objectes
+SRCS    := $(wildcard *.cpp)
+OBJS    := $(SRCS:.cpp=.o)
 
- # Compile each .cpp to .o
- %.o: %.cpp
-   $(CC) -c -o $@ $< $(CFLAGS)
+# Regla principal (compila tot el projecte)
+all: $(TARGET)
 
- # Link all objects into the final program
- $(TARGET): $(OBJS)
-   $(CC) -o $@ $^ $(LDFLAGS)
+# Enllaç dels objectes per crear el programa final
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
- .PHONY: clean
- clean:
-   $(RM) $(OBJS) $(TARGET)
+# Compilació de cada fitxer .cpp a .o
+%.o: %.cpp
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+# Neteja de fitxers generats
+.PHONY: clean
+clean:
+	rm -f $(OBJS) $(TARGET)
+
